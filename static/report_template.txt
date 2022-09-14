@@ -1,0 +1,17 @@
+{{{{User:MisterSynergy/sysop/header}}}}
+This page provides insight into the items which are listed on [[User:Pasleim/Items for deletion/Page deleted]] and its archives. Counts are cumulative for all archives and the current page. Last updated: {update} (UTC).
+
+== By type (P31 value items) ==
+{types}{wikitable1}
+
+== By occupation (humans only) ==
+{occupations}{wikitable2}
+
+== By backlinks ==
+{backlinks}{wikitable3}
+
+== By identifiers ==
+{identifiers}{wikitable4}
+
+== By properties (except identifiers) ==
+{properties}{wikitable5}

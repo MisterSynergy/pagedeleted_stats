@@ -1,0 +1,19 @@
+SELECT ?property ?propertyLabel ?any (COUNT(DISTINCT ?item) AS ?cnt) WITH {{
+  SELECT DISTINCT ?item WHERE {{
+    SERVICE wikibase:mwapi {{
+      bd:serviceParam wikibase:api 'Generator'; wikibase:endpoint 'www.wikidata.org'; mwapi:generator 'links'; mwapi:titles '{pagetitle}' .
+      ?title wikibase:apiOutput mwapi:title  .
+      ?ns wikibase:apiOutput '@ns' .
+      ?pageId wikibase:apiOutput mwapi:pageid .
+    }}
+    FILTER(BOUND(?pageId)) .
+    FILTER(STR(?ns) = '0') .
+    BIND(IRI(CONCAT(STR(wd:), ?title)) AS ?item) .
+  }}
+}} AS %subquery1 WHERE {{
+  INCLUDE %subquery1 .
+  ?backlink ?any ?item .
+  OPTIONAL {{ ?property wikibase:statementProperty|wikibase:qualifier|wikibase:reference ?any }}
+  FILTER NOT EXISTS {{ ?any ^wikibase:directClaim [] }}
+  SERVICE wikibase:label {{ bd:serviceParam wikibase:language 'en' }}
+}} GROUP BY ?property ?propertyLabel ?any ORDER BY DESC(?cnt)
