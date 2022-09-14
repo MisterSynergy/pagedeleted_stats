@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: msynbot.pagedeleted-stats
+  labels:
+    name: msynbot.pagedeleted-stats
+    # The toolforge=tool label will cause $HOME and other paths to be mounted from Toolforge
+    toolforge: tool
+spec:
+  schedule: "42 3 * * 6"
+  successfulJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            toolforge: tool
+        spec:
+          containers:
+          - name: pagedeleted-stats
+            image: docker-registry.tools.wmflabs.org/toolforge-python39-sssd-base:latest
+            command: [ "/data/project/msynbot/pywikibot_tasks/pagedeleted_stats/venv/bin/python3" ]
+            args: [ "/data/project/shared/pywikibot/stable/pwb.py", "/data/project/msynbot/pywikibot_tasks/pagedeleted_stats/main.py" ]
+            workingDir: /data/project/msynbot/pywikibot_tasks/pagedeleted_stats
+            env:
+            - name: HOME
+              value: /data/project/msynbot
+          restartPolicy: OnFailure
