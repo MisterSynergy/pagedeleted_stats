@@ -26,10 +26,12 @@ spec:
               limits:
                 memory: "200Mi"
                 cpu: "100m"
-            command: [ "/data/project/msynbot/pywikibot_tasks/pagedeleted_stats/venv/bin/python3" ]
-            args: [ "/data/project/shared/pywikibot/stable/pwb.py", "/data/project/msynbot/pywikibot_tasks/pagedeleted_stats/main.py" ]
-            workingDir: /data/project/msynbot/pywikibot_tasks/pagedeleted_stats
             env:
             - name: HOME
               value: /data/project/msynbot
+            - name: PYTHONPATH
+              value: /data/project/shared/pywikibot/stable
+            workingDir: /data/project/msynbot/pywikibot_tasks/pagedeleted_stats
+            command: [ "venv/bin/python3" ]
+            args: [ "main.py" ]
           restartPolicy: Never
